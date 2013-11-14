@@ -1,0 +1,38 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf400
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww20520\viewh9540\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs30 \cf0 hadoop fs -mkdir mydata
+\fs28 \cb1 \shad\shadx0\shady-20\shadr0\shado255 \shadc0 \
+\pard\pardeftab720\sl420
+\cf0 hadoop distcp s3://sta250bucket/mini_groups.txt mydata/\shad0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+CREATE TABLE mytable  ( varA INT, varB DOUBLE)\
+\pard\pardeftab720\sl360
+\cf0 ROW FORMAT DELIMITED FIELDS TERMINATED BY "\\t";\
+\pard\pardeftab720\sl320
+\cf0 \
+LOAD DATA INPATH '/user/hadoop/mydata/groups.txt' INTO TABLE mytable;\
+\
+INSERT OVERWRITE DIRECTORY '/user/hadoop/mydata/result'\
+SELECT\
+    vara,\
+    avg(varb),\
+    variance(varb)\
+FROM\
+    mytable\
+GROUP BY\
+    vara;\
+\
+\pard\pardeftab720\sl300
+\cf0 hadoop fs -copyToLocal mydata/result ~/Desktop\
+\pard\pardeftab720\sl300
+\cf0 \
+\pard\pardeftab720\sl420
+\cf0 scp -i qialikeypair.pem -r hadoop@ec2-54-245-153-199.us-west-2.compute.amazonaws.com:~/Desktop /Users/Qian/Documents/STA_250my/HW2\
+\
+}
